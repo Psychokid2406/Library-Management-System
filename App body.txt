@@ -1,0 +1,183 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Library_Management_System
+{
+    public partial class AppBody : Form
+    {
+        public AppBody()
+        {
+            InitializeComponent();
+            sp = true;
+            expandSlidingPanelGUI();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 obj = new Form1();
+            this.Hide();
+            obj.Show();
+        }
+
+        
+
+        bool sp;
+        const int minsl = 100;
+        const int maxsl = 250;
+            
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (sp)
+            {
+                
+            }
+            sliding_timer.Start();
+        }
+
+        private void sliding_timer_Tick(object sender, EventArgs e)
+        {
+            if (sp)
+            {
+                panel2.Width -= 30;
+                if (panel2.Width <= minsl)
+                {
+                    sp = false;
+                    sliding_timer.Stop();
+                    retractSlidingPanelGUI();
+                    this.Refresh();
+                }
+            }
+            else
+            {
+                panel2.Width += 30;
+                if (panel2.Width >= maxsl)
+                {
+                    sp = true;
+                    sliding_timer.Stop();
+                    expandSlidingPanelGUI();    
+                    this.Refresh();
+                }
+            }
+        }
+
+        public void expandSlidingPanelGUI()
+        {
+            bookstab.Text = "BOOKS";
+            borrowertab.Text = "BORROWERS";
+            transactiontab.Text = "TRANSACTIONS";
+            settingstab.Text = "SETTINGS";
+            abouttab.Text = "ABOUT";
+            button3.Image = Properties.Resources.left;
+            bookstab.Image = null;
+            borrowertab.Image = null;
+            transactiontab.Image = null;
+            settingstab.Image = null;
+            abouttab.Image = null;
+        }
+        public void retractSlidingPanelGUI()
+        {
+            bookstab.Text = "";
+            borrowertab.Text = "S";
+            transactiontab.Text = "";
+            settingstab.Text = "";
+            abouttab.Text = "";
+            button3.Image = Properties.Resources.right;
+            bookstab.Image = Properties.Resources.open_book;
+            borrowertab.Image = Properties.Resources.borrow;
+            transactiontab.Image = Properties.Resources.transaction;
+            settingstab.Image = Properties.Resources.setting;
+            abouttab.Image = Properties.Resources.information_button;
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void bookstab_Click(object sender, EventArgs e)
+        {
+            if(!contentPanel.Controls.Contains(BookUserControl.Instance))
+            {
+                contentPanel.Controls.Add(BookUserControl.Instance);
+                BookUserControl.Instance.Dock = DockStyle.Fill;
+                BookUserControl.Instance.BringToFront();
+            }
+            else
+            {
+                BookUserControl.Instance.BringToFront();
+            }
+        }
+
+        private void contentPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void borrowertab_Click(object sender, EventArgs e)
+        {
+            if (!contentPanel.Controls.Contains(Borrowers_UserControl.Instance))
+            {
+                contentPanel.Controls.Add(Borrowers_UserControl.Instance);
+                Borrowers_UserControl.Instance.Dock = DockStyle.Fill;
+                Borrowers_UserControl.Instance.BringToFront();
+            }
+            else
+            {
+                Borrowers_UserControl.Instance.BringToFront();
+            }
+        }
+
+        private void transactiontab_Click(object sender, EventArgs e)
+        {
+            if (!contentPanel.Controls.Contains(Transaction_UserControl.Instance))
+            {
+                contentPanel.Controls.Add(Transaction_UserControl.Instance);
+                Transaction_UserControl.Instance.Dock = DockStyle.Fill;
+                Transaction_UserControl.Instance.BringToFront();
+            }
+            else
+            {
+                Transaction_UserControl.Instance.BringToFront();
+            }
+        }
+
+        private void settingstab_Click(object sender, EventArgs e)
+        {
+            if (!contentPanel.Controls.Contains(Settings_UserControl.Instance))
+            {
+                contentPanel.Controls.Add(Settings_UserControl.Instance);
+                Settings_UserControl.Instance.Dock = DockStyle.Fill;
+                Settings_UserControl.Instance.BringToFront();
+            }
+            else
+            {
+                Settings_UserControl.Instance.BringToFront();
+            }
+        }
+
+        private void abouttab_Click(object sender, EventArgs e)
+        {
+            if (!contentPanel.Controls.Contains(About_UserControl.Instance))
+            {
+                contentPanel.Controls.Add(About_UserControl.Instance);
+                About_UserControl.Instance.Dock = DockStyle.Fill;
+                About_UserControl.Instance.BringToFront();
+            }
+            else
+            {
+                About_UserControl.Instance.BringToFront();
+            }
+        }
+    }
+}

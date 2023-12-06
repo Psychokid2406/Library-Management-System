@@ -1,0 +1,242 @@
+//Book User Control
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace Library_Management_System
+{
+    public partial class BookUserControl : UserControl
+    {
+        private static BookUserControl _instance;
+
+        public static BookUserControl Instance
+        {
+            get
+            {
+                if(_instance == null)
+                {
+                    _instance = new BookUserControl();
+                }
+                return _instance;
+            }
+        }
+        public BookUserControl()
+        {
+            InitializeComponent();
+        }
+
+
+        SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"|DataDirectory|\\Database1.mdf\";Integrated Security=True;");
+        public void refresh_data()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("Showbookdetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter DA = new SqlDataAdapter(cmd);
+                DataSet DS = new DataSet();
+                DA.Fill(DS);
+                con.Open();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("INVALID SQL OPERATION:" + ex);
+                }
+                con.Close();
+                dataGridView1.DataSource = DS.Tables[0];
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("" + ex);
+            }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SqlCommand cmd = new SqlCommand("BooksAdd", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@accNo", accno_textbox.Text);
+            cmd.Parameters.AddWithValue("@isbn", isbn_textbox.Text); 
+            cmd.Parameters.AddWithValue("@Name", name_textbox.Text);
+            cmd.Parameters.AddWithValue("@Author", auth_textbox.Text);
+            cmd.Parameters.AddWithValue("@Publisher", pub_text.Text);
+            cmd.Parameters.AddWithValue("@did", dept_textbox.Text);
+            con.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("INVALID SQL OPERATION:"+ex);
+            }
+            con.Close();
+            refresh_data();
+        }
+
+        private void BookUserControl_Load(object sender, EventArgs e)
+        {
+            refresh_data();
+        }
+    }
+}
+
+
+//Borrower User Control
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace Library_Management_System
+{
+    public partial class Borrowers_UserControl : UserControl
+    {
+        private static Borrowers_UserControl _instance;
+
+        public static Borrowers_UserControl Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Borrowers_UserControl();
+                }
+                return _instance;
+            }
+        }
+        public Borrowers_UserControl()
+        {
+            InitializeComponent();
+        }
+
+        
+    }
+}
+
+
+//Transaction User control
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Library_Management_System
+{
+    public partial class Transaction_UserControl : UserControl
+    {
+        private static Transaction_UserControl _instance;
+
+        public static Transaction_UserControl Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Transaction_UserControl();
+                }
+                return _instance;
+            }
+        }
+        public Transaction_UserControl()
+        {
+            InitializeComponent();
+        }
+    }
+}
+
+//Settings User Control
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Library_Management_System
+{
+    public partial class Settings_UserControl : UserControl
+    {
+        private static Settings_UserControl _instance;
+
+        public static Settings_UserControl Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Settings_UserControl();
+                }
+                return _instance;
+            }
+        }
+        public Settings_UserControl()
+        {
+            InitializeComponent();
+        }
+    }
+}
+
+
+//About User Control
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Library_Management_System
+{
+    public partial class About_UserControl : UserControl
+    {
+        private static About_UserControl _instance;
+
+        public static About_UserControl Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new About_UserControl();
+                }
+                return _instance;
+            }
+        }
+        public About_UserControl()
+        {
+            InitializeComponent();
+        }
+    }
+}

@@ -1,0 +1,64 @@
+BOOKS TABLE
+
+CREATE TABLE [dbo].[books] (
+    [accNo]     INT          NOT NULL,
+    [isbn]      VARCHAR (10) NULL,
+    [Name]      VARCHAR (30) NULL,
+    [Author]    VARCHAR (30) NULL,
+    [Publisher] VARCHAR (30) NULL,
+    [did]       INT          NULL,
+    [borrower]  INT          NULL,
+    PRIMARY KEY CLUSTERED ([accNo] ASC),
+    CONSTRAINT [FK_books_ToTable] FOREIGN KEY ([did]) REFERENCES [dbo].[department] ([dept_id]),
+    CONSTRAINT [FK_books_ToTable_1] FOREIGN KEY ([borrower]) REFERENCES [dbo].[borrower] ([Bid])
+);
+
+BORROWERS TABLE
+
+CREATE TABLE [dbo].[borrower] (
+    [Bid]      INT          NOT NULL,
+    [Name]     VARCHAR (30) NULL,
+    [Address]  VARCHAR (30) NULL,
+    [Phone_No] INT          NULL,
+    [Book1]    INT          NULL,
+    [Book2]    INT          NULL,
+    [Book3]    INT          NULL,
+    PRIMARY KEY CLUSTERED ([Bid] ASC),
+    CONSTRAINT [FK_borrower_ToTable] FOREIGN KEY ([Book1]) REFERENCES [dbo].[books] ([accNo]),
+    CONSTRAINT [FK_borrower_ToTable_1] FOREIGN KEY ([Book2]) REFERENCES [dbo].[books] ([accNo]),
+    CONSTRAINT [FK_borrower_ToTable_2] FOREIGN KEY ([Book3]) REFERENCES [dbo].[books] ([accNo])
+);
+
+TRANSACTION TABLE
+
+CREATE TABLE [dbo].[Transactions] (
+    [Tnum]          INT          IDENTITY (1, 1) NOT NULL,
+    [date]          DATE         NULL,
+    [Time]          TIME (7)     NULL,
+    [br_id]         INT          NULL,
+    [book_num]      INT          NULL,
+    [Authorised_by] VARCHAR (20) NULL,
+    [return_date]   DATE         NULL,
+    [hasReturned]   BIT          NULL,
+    PRIMARY KEY CLUSTERED ([Tnum] ASC),
+    CONSTRAINT [FK_Transactions_ToTable] FOREIGN KEY ([br_id]) REFERENCES [dbo].[borrower] ([Bid]),
+    CONSTRAINT [FK_Transactions_ToTable_1] FOREIGN KEY ([book_num]) REFERENCES [dbo].[books] ([accNo])
+);
+
+DEPARTMENT TABLE
+
+CREATE TABLE [dbo].[department] (
+    [dept_id]   INT          NOT NULL,
+    [dept_name] VARCHAR (20) NULL,
+    [rackCode]  INT          NULL,
+    PRIMARY KEY CLUSTERED ([dept_id] ASC)
+);
+
+INFO TABLE
+
+CREATE TABLE [dbo].[info] (
+    [Property] VARCHAR (10) NOT NULL,
+    [Value]    NCHAR (10)   NULL,
+    PRIMARY KEY CLUSTERED ([Property] ASC)
+);
+
